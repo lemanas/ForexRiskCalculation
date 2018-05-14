@@ -25,5 +25,6 @@ namespace ForexRisk.DataAccess
         public double DebtGrowthUs { get; set; }
         public double ForexTendency { get; set; }
         public int Outcome { get; set; }
+        public int Id { get; set; }
     }
 }

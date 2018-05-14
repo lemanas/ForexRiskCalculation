@@ -8,11 +8,11 @@ namespace ForexRiskTraining
 {
     public class RiskModelTraining
     {
-        public static void TrainModel()
+        public static MultinomialLogisticRegression TrainModel(int startYear, int endYear)
         {
             using (ForexDataEntities context = new ForexDataEntities())
             {
-                var data = context.AnalyticRecords.Select(r => new InputRecord
+                var data = context.AnalyticRecords.Where(r => r.Year >= startYear && r.Year <= endYear).Select(r => new InputRecord
                 {
                     CpiDifference = r.CpiDifference,
                     CpiTendency = r.CpiTendency,
@@ -48,14 +48,11 @@ namespace ForexRiskTraining
                 LowerBoundNewtonRaphson lbnr = new LowerBoundNewtonRaphson
                 {
                     MaxIterations = 50000,
-                    Tolerance = 0.1
+                    Tolerance = 0.001
                 };
 
                 MultinomialLogisticRegression mlr = lbnr.Learn(inputs, outputs);
-                int[] answers = mlr.Decide(inputs);
-                double[][] probabilities = mlr.Probabilities(inputs);
-
-                int a = 0;
+                return mlr;
             }
         }
     }
