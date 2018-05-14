@@ -12,9 +12,11 @@ namespace ForexRisk.DataAccess
     using System;
     using System.Collections.Generic;
     
-    public partial class AnalyticRecord : IAnalyticRecord
+    public partial class AnalyticQuarterlyRecord : IAnalyticRecord
     {
+        public int Id { get; set; }
         public int Year { get; set; }
+        public int Quarter { get; set; }
         public double CpiDifference { get; set; }
         public double CpiTendency { get; set; }
         public double InterestRateDifference { get; set; }
@@ -25,6 +27,5 @@ namespace ForexRisk.DataAccess
         public double DebtGrowthUs { get; set; }
         public double ForexTendency { get; set; }
         public int Outcome { get; set; }
-        public int Id { get; set; }
     }
 }
