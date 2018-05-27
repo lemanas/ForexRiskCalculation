@@ -14,13 +14,18 @@ namespace ForexRiskApi.Controllers
         [ResponseType(typeof(void))]
         public IHttpActionResult TrainRiskModel([FromBody]Period period)
         {
-            if (period.IsYearly)
+            if (period.PeriodRange == "Yearly")
             {
                 Globals.Model = RiskModelTraining.TrainModel(Context.AnalyticRecords, period.Start, period.End);
             }
+            else if (period.PeriodRange == "Quarterly")
+            {
+                Globals.Model =
+                    RiskModelTraining.TrainModel(Context.AnalyticQuarterlyRecords, period.Start, period.End);
+            }
             else
             {
-                Globals.Model = RiskModelTraining.TrainModel(Context.AnalyticQuarterlyRecords, period.Start, period.End);
+                Globals.Model = RiskModelTraining.TrainDailyModel(Context.AnalyticDailyRecords, period.Start, period.End);
             }
             return Ok();
         }

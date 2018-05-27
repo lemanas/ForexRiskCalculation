@@ -27,5 +27,6 @@ namespace ForexRisk.DataAccess
     
         public virtual DbSet<AnalyticRecord> AnalyticRecords { get; set; }
         public virtual DbSet<AnalyticQuarterlyRecord> AnalyticQuarterlyRecords { get; set; }
+        public virtual DbSet<AnalyticDailyRecord> AnalyticDailyRecords { get; set; }
     }
 }

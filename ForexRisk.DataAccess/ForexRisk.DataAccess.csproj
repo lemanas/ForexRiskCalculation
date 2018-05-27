@@ -49,6 +49,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AnalyticDailyRecord.cs">
+      <DependentUpon>ForexModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="AnalyticQuarterlyRecord.cs">
       <DependentUpon>ForexModel.tt</DependentUpon>
     </Compile>

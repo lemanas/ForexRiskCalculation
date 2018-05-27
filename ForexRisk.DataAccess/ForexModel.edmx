@@ -5,6 +5,23 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
     <Schema Namespace="ForexDataModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012.Azure" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="AnalyticDailyRecords">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Date" Type="datetime" Nullable="false" />
+          <Property Name="CpiDifference" Type="float" Nullable="false" />
+          <Property Name="CpiTendency" Type="float" Nullable="false" />
+          <Property Name="InterestRateDifference" Type="float" Nullable="false" />
+          <Property Name="InterestRateTendency" Type="float" Nullable="false" />
+          <Property Name="TradeBalanceByUk" Type="float" Nullable="false" />
+          <Property Name="TradeBalanceByUs" Type="float" Nullable="false" />
+          <Property Name="DebtGrowthUk" Type="float" Nullable="false" />
+          <Property Name="DebtGrowthUs" Type="float" Nullable="false" />
+          <Property Name="ForexTendency" Type="float" Nullable="false" />
+          <Property Name="Outcome" Type="int" Nullable="false" />
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+        </EntityType>
         <EntityType Name="AnalyticQuarterlyRecords">
           <Key>
             <PropertyRef Name="Id" />
@@ -41,6 +58,7 @@
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
         </EntityType>
         <EntityContainer Name="ForexDataModelStoreContainer">
+          <EntitySet Name="AnalyticDailyRecords" EntityType="Self.AnalyticDailyRecords" Schema="calc" store:Type="Tables" />
           <EntitySet Name="AnalyticQuarterlyRecords" EntityType="Self.AnalyticQuarterlyRecords" Schema="calc" store:Type="Tables" />
           <EntitySet Name="AnalyticRecords" EntityType="Self.AnalyticRecords" Schema="calc" store:Type="Tables" />
         </EntityContainer>
@@ -51,6 +69,7 @@
         <EntityContainer Name="ForexDataEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="AnalyticRecords" EntityType="ForexDataModel.AnalyticRecord" />
           <EntitySet Name="AnalyticQuarterlyRecords" EntityType="ForexDataModel.AnalyticQuarterlyRecord" />
+          <EntitySet Name="AnalyticDailyRecords" EntityType="ForexDataModel.AnalyticDailyRecord" />
         </EntityContainer>
         <EntityType Name="AnalyticRecord">
           <Key>
@@ -86,6 +105,23 @@
           <Property Name="DebtGrowthUs" Type="Double" Nullable="false" />
           <Property Name="ForexTendency" Type="Double" Nullable="false" />
           <Property Name="Outcome" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="AnalyticDailyRecord">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Date" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="CpiDifference" Type="Double" Nullable="false" />
+          <Property Name="CpiTendency" Type="Double" Nullable="false" />
+          <Property Name="InterestRateDifference" Type="Double" Nullable="false" />
+          <Property Name="InterestRateTendency" Type="Double" Nullable="false" />
+          <Property Name="TradeBalanceByUk" Type="Double" Nullable="false" />
+          <Property Name="TradeBalanceByUs" Type="Double" Nullable="false" />
+          <Property Name="DebtGrowthUk" Type="Double" Nullable="false" />
+          <Property Name="DebtGrowthUs" Type="Double" Nullable="false" />
+          <Property Name="ForexTendency" Type="Double" Nullable="false" />
+          <Property Name="Outcome" Type="Int32" Nullable="false" />
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -127,6 +163,24 @@
                 <ScalarProperty Name="Quarter" ColumnName="Quarter" />
                 <ScalarProperty Name="Year" ColumnName="Year" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AnalyticDailyRecords">
+            <EntityTypeMapping TypeName="ForexDataModel.AnalyticDailyRecord">
+              <MappingFragment StoreEntitySet="AnalyticDailyRecords">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Outcome" ColumnName="Outcome" />
+                <ScalarProperty Name="ForexTendency" ColumnName="ForexTendency" />
+                <ScalarProperty Name="DebtGrowthUs" ColumnName="DebtGrowthUs" />
+                <ScalarProperty Name="DebtGrowthUk" ColumnName="DebtGrowthUk" />
+                <ScalarProperty Name="TradeBalanceByUs" ColumnName="TradeBalanceByUs" />
+                <ScalarProperty Name="TradeBalanceByUk" ColumnName="TradeBalanceByUk" />
+                <ScalarProperty Name="InterestRateTendency" ColumnName="InterestRateTendency" />
+                <ScalarProperty Name="InterestRateDifference" ColumnName="InterestRateDifference" />
+                <ScalarProperty Name="CpiTendency" ColumnName="CpiTendency" />
+                <ScalarProperty Name="CpiDifference" ColumnName="CpiDifference" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

@@ -22,7 +22,7 @@ namespace ForexRiskApi.Controllers
             MultinomialLogisticRegression model;
             double[][] inputs;
 
-            if (period.IsYearly)
+            if (period.PeriodRange == "Yearly")
             {
                 model = Globals.Model ?? RiskModelTraining.TrainModel(Context.AnalyticRecords, 2000, 2017);
                 inputs = GetInputData(Context.AnalyticRecords, period.Start, period.End);
@@ -38,7 +38,7 @@ namespace ForexRiskApi.Controllers
             int counter = 0;
             for (int i = 0; i < answers.Length; i++)
             {
-                if (period.IsYearly)
+                if (period.PeriodRange == "Yearly")
                 {
                     Prediction prediction = new Prediction
                     {
@@ -48,7 +48,7 @@ namespace ForexRiskApi.Controllers
                     predictions.Add(prediction);
                     currentYear++;
                 }
-                else
+                else if (period.PeriodRange == "Quarterly")
                 {
                     counter++;
                     Prediction prediction = new Prediction
@@ -73,7 +73,7 @@ namespace ForexRiskApi.Controllers
             List<Probability> probabilityList = new List<Probability>();
             MultinomialLogisticRegression model;
             double[][] inputs;
-            if (period.IsYearly)
+            if (period.PeriodRange == "Yearly")
             {
                 model = Globals.Model ?? RiskModelTraining.TrainModel(Context.AnalyticRecords, 2000, 2017);
                 inputs = GetInputData(Context.AnalyticRecords, period.Start, period.End);
@@ -88,7 +88,7 @@ namespace ForexRiskApi.Controllers
             int counter = 0;
             foreach (var t in probabilities)
             {
-                if (period.IsYearly)
+                if (period.PeriodRange == "Yearly")
                 {
                     Probability probability = new Probability {Year = currentYear};
                     for (int j = 0; j < 5; j++)
@@ -120,6 +120,42 @@ namespace ForexRiskApi.Controllers
         private static double[][] GetInputData<T>(DbSet<T> analyticTable, int startYear, int endYear) where T : class, IAnalyticRecord
         {
             var data = analyticTable.Where(r => r.Year >= startYear && r.Year <= endYear).Select(r => new InputRecord
+            {
+                CpiDifference = r.CpiDifference,
+                CpiTendency = r.CpiTendency,
+                InterestRateDifference = r.InterestRateDifference,
+                InterestRateTendency = r.InterestRateTendency,
+                TradeBalanceByUk = r.TradeBalanceByUk,
+                TradeBalanceByUs = r.TradeBalanceByUs,
+                DebtGrowthUk = r.DebtGrowthUk,
+                DebtGrowthUs = r.DebtGrowthUs,
+                ForexTendency = r.ForexTendency
+            }).ToList();
+
+            double[][] inputs = new double[data.Count][];
+
+            for (int i = 0; i < data.Count; i++)
+            {
+                inputs[i] = new[]
+                {
+                    data[i].CpiDifference,
+                    data[i].CpiTendency,
+                    data[i].InterestRateDifference,
+                    data[i].InterestRateTendency,
+                    data[i].TradeBalanceByUk,
+                    data[i].TradeBalanceByUs,
+                    data[i].DebtGrowthUk,
+                    data[i].DebtGrowthUs,
+                    data[i].ForexTendency
+                };
+            }
+
+            return inputs;
+        }
+
+        private static double[][] GetDailyInputData<T>(DbSet<T> analyticTable, int startYear, int endYear) where T : class, IAnalyticDailyRecord
+        {
+            var data = analyticTable.Where(r => r.Date.Year >= startYear && r.Date.Year <= endYear).Select(r => new InputRecord
             {
                 CpiDifference = r.CpiDifference,
                 CpiTendency = r.CpiTendency,

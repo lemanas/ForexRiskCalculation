@@ -7,6 +7,7 @@
       <Diagram DiagramId="8d6ef18829994ee59edf0227fba50c31" Name="Diagram1">
         <EntityTypeShape EntityType="ForexDataModel.AnalyticRecord" Width="1.5" PointX="0.75" PointY="0.75" />
         <EntityTypeShape EntityType="ForexDataModel.AnalyticQuarterlyRecord" Width="1.5" PointX="3.375" PointY="0.75" />
+        <EntityTypeShape EntityType="ForexDataModel.AnalyticDailyRecord" Width="1.5" PointX="5.375" PointY="0.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
