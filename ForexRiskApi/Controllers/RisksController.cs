@@ -34,7 +34,7 @@ namespace ForexRiskApi.Controllers
             }
             
             int[] answers = model.Decide(inputs);
-            int currentYear = period.Start + 1;
+            int currentYear = period.Start;
             int counter = 0;
             for (int i = 0; i < answers.Length; i++)
             {
